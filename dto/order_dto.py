@@ -6,7 +6,7 @@ class OrderDetailDTO(BaseModel):
     order_detail_id: int
     product_id: int
     quantity: int = Field(..., ge=1)
-    price: float = Field(..., gt=0)
+    price: float = Field(..., ge=0)
 
 class OrderDTO(BaseModel):
     order_id: int
