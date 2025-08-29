@@ -10,6 +10,7 @@ from database import SessionLocal
 from unit_of_work import UnitOfWork
 from mappers.order_model_to_dto import order_model_to_dto
 from mappers.order_mapper import dto_to_domain, domain_to_orm,orm_to_domain,order_detail_dto_to_domain
+from services.order_sync import sync_order_domain_to_orm
 
 def get_orders_service(uow: UnitOfWork) -> List[OrderDTO]:
     orders = get_orders(uow.session)
@@ -35,7 +36,6 @@ def save_order_service(order_dto: OrderDTO, uow: UnitOfWork) -> int:
     return True, order_id
 
 def update_order_service(order_id: int, order_dto: OrderDTO, uow: UnitOfWork) -> bool:
-    from services.order_sync import sync_order_domain_to_orm
     orm_order = get_order_by_id_uow(uow.session, order_id)
     if not orm_order:
         return False, "Order not found"
@@ -51,7 +51,6 @@ def update_order_service(order_id: int, order_dto: OrderDTO, uow: UnitOfWork) ->
     # Apply changes from DTO to domain entity (simulate update)
     updated_domain_order.customer_name = order_dto.customer_name
     updated_domain_order.order_date = order_dto.order_date
-    from domain.entities.order import OrderDetail
     updated_domain_order.order_details = [
         order_detail_dto_to_domain(detail) for detail in order_dto.order_details
     ] if order_dto.order_details else []
