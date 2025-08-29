@@ -1,4 +1,4 @@
-from repositories.repository_orders import save_order, update_order, delete_order
+from repositories.repository_orders import save_order, delete_order
 from models.models import Orders, OrderDetails
 from typing import List, Optional
 from repositories.repository_orders import get_orders, get_order_by_id,get_order_by_id_uow
